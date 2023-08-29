@@ -2,11 +2,7 @@ package micro.cary.moviemanagement.controller;
 
 
 
-public class SessionController {
-    
-    
-    
 
-
-
+public class ContrllerTest {
+    
 }
