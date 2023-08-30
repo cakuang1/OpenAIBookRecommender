@@ -1,79 +1,97 @@
 package micro.cary.moviemanagement.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+
+import static org.mockito.Mockito.doNothing;
+
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.util.Arrays;
+
 import java.util.HashMap;
-import java.util.Optional;
+import java.util.Map;
 
-import org.junit.jupiter.api.BeforeEach;
+
+
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-import micro.cary.moviemanagement.domain.Book;
-import micro.cary.moviemanagement.domain.Sessions;
-import micro.cary.moviemanagement.repository.SessionRepository;
-
+import micro.cary.moviemanagement.utils.RedisSessionManager;
+@ExtendWith(MockitoExtension.class)
 public class ServiceTest {
     
 
     @Mock
-    private SessionRepository repository;
+    private RedisSessionManager sessionManager;
 
-    private SessionService service;
-
-    @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
-        service = new SessionService(repository);
-    }
-
-
-
+    @InjectMocks
+    private SessionService sessionService;
 
     @Test
-    void testGetAll() {
-        String sessionId = "testsession123";
-        Book lightningThiefBook = new Book("test", "lightning thief", Arrays.asList("genre1", "genre2"));
-        Sessions existingSession = new Sessions(sessionId);
-        existingSession.getBooks().put("book1", lightningThiefBook);
-        when(repository.findById(sessionId)).thenReturn(Optional.of(existingSession));
-        HashMap<String, Book> books = service.getallBooks(sessionId);
+    public void testStoreSessionData() {
+        // Define your test data
+        String sessionId = "session123";
+        Map<String, String> sessionData = new HashMap<>();
+        int sessionDurationInSeconds = 3600; 
 
-        assertNotNull(books);
-        assertEquals(1, books.size());
 
+        doNothing().when(sessionManager).storeSession(sessionId, sessionData, sessionDurationInSeconds);
+
+
+        sessionService.storeSessionData(sessionId, sessionData, sessionDurationInSeconds);
+
+
+        verify(sessionManager).storeSession(sessionId, sessionData, sessionDurationInSeconds);
     }
+
     @Test
-    void testAddBooks() {
-        String sessionId = "testsession123";
-        Book lightningThiefBook = new Book("test", "lightning thief", Arrays.asList("genre1", "genre2"));
+    public void testGetSessionData() {
 
-        Sessions existingSession = new Sessions(sessionId);
+        String sessionId = "session123";
+        Map<String, String> expectedSessionData = new HashMap<>();
 
-        when(repository.findById(sessionId)).thenReturn(Optional.of(existingSession));
+        when(sessionManager.getSessionData(sessionId)).thenReturn(expectedSessionData);
 
-        service.addBookSession(sessionId, "book", lightningThiefBook);
-        
-        assertEquals(1, existingSession.getBooks().size());
 
+        Map<String, String> actualSessionData = sessionService.getSessionData(sessionId);
+
+
+        assertEquals(expectedSessionData, actualSessionData);
     }
+
     @Test
-    void testDeleteBooks() {
-        String sessionId = "testsession123";
-        Book lightningThiefBook = new Book("test", "lightning thief", Arrays.asList("genre1", "genre2"));
+    public void testAddKeyToSessionData() {
+        // Define your test data
+        String sessionId = "session123";
+        String key = "someKey";
+        String value = "someValue";
 
-        Sessions existingSession = new Sessions(sessionId);
+        // Mock the behavior of the session manager
+        doNothing().when(sessionManager).addKeyToSession(sessionId, key, value);
 
-        when(repository.findById(sessionId)).thenReturn(Optional.of(existingSession));
+        // Call the method being tested
+        sessionService.addKeyToSessionData(sessionId, key, value);
 
-        service.addBookSession(sessionId, "book", lightningThiefBook);
-        
-        assertEquals(1, existingSession.getBooks().size());
-
+        // Verify that the method was called with the expected arguments
+        verify(sessionManager).addKeyToSession(sessionId, key, value);
     }
 
+    @Test
+    public void testDeleteKeyFromSessionData() {
+        // Define your test data
+        String sessionId = "session123";
+        String keyToDelete = "keyToDelete";
+
+        // Mock the behavior of the session manager
+        doNothing().when(sessionManager).deleteKeyFromSession(sessionId, keyToDelete);
+
+        // Call the method being tested
+        sessionService.deleteKeyFromSessionData(sessionId, keyToDelete);
+
+        // Verify that the method was called with the expected arguments
+        verify(sessionManager).deleteKeyFromSession(sessionId, keyToDelete);
+    }
 }

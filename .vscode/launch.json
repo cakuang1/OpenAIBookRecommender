@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-MoviemanagementApplication<moviemanagement>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "micro.cary.moviemanagement.MoviemanagementApplication",
+            "projectName": "moviemanagement",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
