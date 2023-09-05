@@ -4,9 +4,9 @@ import SearchBar from "./SearchBar"
 
 
 
-//https://www.googleapis.com/books/v1/volumes?q=${term}&maxResults=11
+//https://www.googleapis.com/books/v1/volumes?q=${term}&maxResults=11&key=AIzaSyCOeK3OAiQpxV7CaTPE-FAhDdI0fAFrzSA
 
-//AIzaSyCOeK3OAiQpxV7CaTPE-FAhDdI0fAFrzSA
+//
 
 
 let testcase  = [
