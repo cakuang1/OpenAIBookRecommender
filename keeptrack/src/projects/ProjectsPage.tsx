@@ -1,4 +1,4 @@
-import Movielist from "./Movielist"
+import Movielist from "./Booklist"
 import SearchBar from "./SearchBar"
 // MAIN PAGE
 
