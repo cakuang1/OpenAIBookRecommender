@@ -17,17 +17,15 @@ public class BookService {
 
     private final WebClient webClient;
 
-
     public BookService() {
         this.webClient = WebClient.builder()
                 .baseUrl("https://www.googleapis.com/books/v1")
                 .build();
 
     }
-
     public List<BookDTO> fetchBooks() {
         return webClient.get()
-                .uri("/volumes?q=test&maxResults=11")
+                .uri("/volumes?q=test&maxResults=4&key=AIzaSyCOeK3OAiQpxV7CaTPE-FAhDdI0fAFrzSA")
                 .retrieve()
                 .bodyToMono(JsonNode.class)
                 .map(this::processBooksResponse)

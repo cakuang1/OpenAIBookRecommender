@@ -7,9 +7,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 
-
-
-
 import micro.cary.moviemanagement.domain.BookDTO;
 import micro.cary.moviemanagement.service.BookService;
 
@@ -25,10 +22,10 @@ public class BookController {
     public BookController(BookService bookService) {
         this.bookService = bookService;
     }
-
     @GetMapping("/fetch")
     public ResponseEntity<List<BookDTO>> fetchBooks() {
         List<BookDTO> books = bookService.fetchBooks();
         return ResponseEntity.ok(books);
     }
+    
 }

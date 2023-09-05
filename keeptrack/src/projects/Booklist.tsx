@@ -10,23 +10,26 @@ import React from "react";
 
 
 
+
+
 interface Book {
+    title: string;
+    author: string;
     isbn: string;
-    name: string;
-    picture: string;
-    publish: string;
+    pictureurl: string;
   }
-  
-  const BookItem: React.FC<Book> = ({ isbn, name, picture, publish }) => {
+
+  const BookItem: React.FC<Book> = ({ title, author, isbn, pictureurl }) => {
     return (
-      <div className="flex items-center border rounded-md p-4 shadow-md mb-4">
-        <img src={picture} alt={name} className="w-24 h-36 mr-4" />
+      <div className="flex items-center border p-2 bg-black text-yellow-500 shadow-md border-yellow-500 ">
+        <img src={pictureurl} className="w-16 h-24 mr-2" />
         <div>
-          <h2 className="text-xl font-semibold mb-2">{name}</h2>
-          <p className="text-gray-600">ISBN: {isbn}</p>
-          <p className="text-gray-600">Published: {publish}</p>
+          <h2 className="text-lg font-semibold mb-1">{title}</h2>
+          <p className="text-gray-400">ISBN: {isbn}</p>
+          <p className="text-gray-400">Published: {author}</p>
         </div>
       </div>
+
     );
   };
   
@@ -41,9 +44,10 @@ interface Book {
           <BookItem
             key={index} 
             isbn={book.isbn}
-            name={book.name}
-            picture={book.picture}
-            publish={book.publish}
+            title={book.title}
+            pictureurl={book.pictureurl}
+            author={book.author
+            }
           />
         ))}
       </div>
