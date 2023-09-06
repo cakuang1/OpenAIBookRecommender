@@ -7,11 +7,6 @@ import React from "react";
 
 
 
-
-
-
-
-
 interface Book {
     title: string;
     author: string;
@@ -19,7 +14,7 @@ interface Book {
     pictureurl: string;
   }
 
-  const BookItem: React.FC<Book> = ({ title, author, isbn, pictureurl }) => {
+  const BookItem: React.FC<Book> = ({ title ,author, isbn, pictureurl }) => {
     return (
       <div className="flex items-center border p-2 bg-black text-yellow-500 shadow-md border-yellow-500 ">
         <img src={pictureurl} className="w-16 h-24 mr-2" />

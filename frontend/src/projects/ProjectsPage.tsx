@@ -1,5 +1,7 @@
+import React from "react"
 import BookList from "./Booklist"
 import SearchBar from "./SearchBar"
+import ReccButton from "./ReccButton"
 // MAIN PAGE
 
 
@@ -59,11 +61,10 @@ function ProjectsPage() {
             <SearchBar/>
             <BookList bookitems={testcase}/>
         </div>
-        <div className="w-1/5 bg-black"></div>
+        <div className="w-1/5 bg-black">
+            <ReccButton/>   
+        </div>
         <div></div>
-
-
-
     </div>)
 
 

@@ -23,5 +23,16 @@ services:
       - mynetwork
     volumes:
       - ./moviemanagement/src:/app/src
+  frontend:
+    build:
+      context: ./frontend
+    environment:
+      - WATCHPACK_POLLING=true
+    ports:
+      - "3000:3000"
+    volumes:
+      - /app/node_modules
+      - ./frontend:/app
+
 networks:
   mynetwork:
