@@ -7,9 +7,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+
+
+
+
+
+
 
 
 @RestController
@@ -18,12 +23,14 @@ public class SessionController {
 	public List<String> home(HttpSession session) {
 		@SuppressWarnings("unchecked")
 		List<String> messages = (List<String>) session.getAttribute("MY_SESSION_MESSAGES");
-
 		if (messages == null) {
 			messages = new ArrayList<>();
 		}
 		return messages;
 	}
+
+
+
 
 
 	@PostMapping("/persistMessage")
@@ -39,6 +46,7 @@ public class SessionController {
         
 		return msgs;
 	}
+
 
 	@PostMapping("/destroy")
 	public String destroySession(HttpServletRequest request) {
