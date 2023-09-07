@@ -2,9 +2,8 @@ import React from "react"
 import BookList from "./Booklist"
 import SearchBar from "./SearchBar"
 import ReccButton from "./ReccButton"
+import { useState,useEffect } from "react"
 // MAIN PAGE
-
-
 
 //https://www.googleapis.com/books/v1/volumes?q=${term}&maxResults=11&key=AIzaSyCOeK3OAiQpxV7CaTPE-FAhDdI0fAFrzSA
 
@@ -50,18 +49,28 @@ let testcase  = [
     }
   ]
 
+  interface Book {
+    title: string;
+    author: string;
+    isbn: string;
+    pictureurl: string;
+  }
 
 
 
 
 function ProjectsPage() {
+    const [books,setBooks] = useState<Book[]>([]);
+    
+
+
     return (
     <div className="bg-white flex h-4/5 mt-4 w-4/5 m-auto">
         <div className="w-2/5 border border-yellow-500 bg-black overflow-y-scroll scrollbar scrollbar-thumb-black scrollbar-track-yellow-500">
             <SearchBar/>
-            <BookList bookitems={testcase}/>
+            <BookList bookitems={books}/>
         </div>
-        <div className="w-1/5 bg-black">
+        <div className="w-3/5 bg-black">
             <ReccButton/>   
         </div>
         <div></div>

@@ -16,15 +16,49 @@ interface Book {
   }
 
   const BookItem: React.FC<Book> = ({ title, author, isbn, pictureurl }) => {
+    const handleClick = async () => {
+      try {
+        // Define the book data you want to send in the POST request body
+        const bookData = {
+          title,
+          author,
+          isbn,
+          pictureurl,
+        };
+  
+        // Send a POST request using the fetch API
+        const response = await fetch('', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(bookData),
+        });
+  
+        // Handle the response as needed (e.g., show a success message)
+        if (response.ok) {
+          const responseData = await response.json();
+          console.log('POST request successful:', responseData);
+        } else {
+          console.error('Error sending POST request:', response.status);
+        }
+      } catch (error) {
+        // Handle any errors that occur during the request
+        console.error('Error sending POST request:', error);
+      }
+    };
+  
     return (
-<div className="flex items-center border p-2 text-yellow-500 border-yellow-500 bg-white transition duration-300 hover:shadow-lg hover:bg-gray-100">
-      <img src={pictureurl} className="w-16 h-16 mr-2" />
-      <div>
-        <h2 className="text-lg font-semibold mb-1">{title}</h2>
-        <p className="text-gray-400">Published: {author}</p>
+      <div
+        className="flex items-center border p-2 text-yellow-500 border-yellow-500 bg-white transition duration-300 hover:shadow-lg hover:bg-gray-100"
+        onClick={handleClick} // Add the onClick event handler
+      >
+        <img src={pictureurl} className="w-16 h-16 mr-2" />
+        <div>
+          <h2 className="text-lg font-semibold mb-1">{title}</h2>
+          <p className="text-gray-400">Published: {author}</p>
+        </div>
       </div>
-    </div>
-
     );
   };
 
