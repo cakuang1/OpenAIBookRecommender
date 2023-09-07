@@ -6,8 +6,6 @@ interface Query {
     query : string;
 } 
 
-
-
 interface Book {
     title: string;
     author: string;
@@ -15,6 +13,8 @@ interface Book {
     pictureurl: string;
   }
 
+
+  
   const BookItem: React.FC<Book> = ({ title, author, isbn, pictureurl }) => {
     const handleClick = async () => {
       try {

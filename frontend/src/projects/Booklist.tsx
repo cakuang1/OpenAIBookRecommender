@@ -22,11 +22,25 @@ interface BookItemProps {
   const BookItem: React.FC<BookItemProps> = ({ book, onClick }) => {
     const { title, author, isbn, pictureurl } = book;
   
-    const handleClick = () => {
+    const handleClick = async() => {
       // Call the onClick handler with the ISBN when the BookItem is clicked
+      const response = await fetch('http://localhost:8080/sessions/deletebook?isbn=' + isbn, {
+        method: 'POST',
+        credentials: 'include'})
+      // Handle the response as needed (e.g., show a success message)
+      if (response.ok) {
+        const responseData = await response.json();
+        console.log('POST request successful:', responseData);
+      } else {
+        console.error('Error sending POST request:', response.status);
+      }
       onClick();
     };
-  
+    
+
+    
+
+
     return (
       <div
         className="flex items-center border p-2 bg-black text-yellow-500 shadow-md border-yellow-500 hover:bg-red-500 transition duration-300 ease-in-out"
@@ -46,6 +60,7 @@ interface BookItemProps {
     bookitems: Book[];
     onBookClick: () => void; 
   }
+  
   
   const BookList: React.FC<ListofBooks> = ({ bookitems,onBookClick}) => {
     return (
