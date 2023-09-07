@@ -14,8 +14,9 @@ import jakarta.servlet.http.HttpSession;
 import micro.cary.moviemanagement.domain.BookDTO;
 
 
+
 @RestController
-@RequestMapping("/session")
+@RequestMapping("/sessions")
 public class SessionController {
     @GetMapping("/")
 	public List<BookDTO> home(HttpSession session) {
@@ -28,24 +29,28 @@ public class SessionController {
 	}
 
 
-
-
-
     @PostMapping("/addbook")
     public List<BookDTO> addBook(@RequestBody BookDTO book, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        String sessionId = session.getId(); // Get the session ID
+        
         @SuppressWarnings("unchecked")
-        List<BookDTO> books = (List<BookDTO>) request.getSession().getAttribute("books");
+        List<BookDTO> books = (List<BookDTO>) session.getAttribute("books");
         
         if (books == null) {
             books = new ArrayList<>();
-            request.getSession().setAttribute("books", books);
+            session.setAttribute("books", books);
         }
         
         books.add(book);
-        request.getSession().setAttribute("books", books);
+        session.setAttribute("books", books);
+        
+        // Print the session ID
+        System.out.println("Session ID: " + sessionId);
         
         return books;
     }
+    
     
 
 

@@ -10,45 +10,6 @@ import { useState,useEffect } from "react"
 //
 
 
-let testcase  = [
-    {
-        "title": "The Mom Test",
-        "author": "Rob Fitzpatrick",
-        "isbn": "9781492180746",
-        "pictureurl": "http://books.google.com/books/content?id=Z5nYDwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
-    },
-    {
-        "title": "The Official Guide to the GRE General Test, Third Edition",
-        "author": "Educational Testing Service",
-        "isbn": "9781259862410",
-        "pictureurl": "http://books.google.com/books/content?id=K9Q_vgAACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api"
-    },
-    {
-        "title": "The Test Book",
-        "author": "Mikael Krogerus",
-        "isbn": "9780393247053",
-        "pictureurl": "http://books.google.com/books/content?id=lPV1CQAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
-    },
-    {
-        "title": "6 Full-Length STAAR Grade 3 Math Practice Tests",
-        "author": "Michael Smith",
-        "isbn": "9781646127795",
-        "pictureurl": "http://books.google.com/books/content?id=yDj1DwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
-    },
-    {
-        "title": "6 Full-Length STAAR Grade 3 Math Practice Tests",
-        "author": "Michael Smith",
-        "isbn": "9781646127795",
-        "pictureurl": "http://books.google.com/books/content?id=yDj1DwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
-    },
-    {
-        "title": "6 Full-Length STAAR Grade 3 Math Practice Tests",
-        "author": "Michael Smith",
-        "isbn": "9781646127795",
-        "pictureurl": "http://books.google.com/books/content?id=yDj1DwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
-    }
-  ]
-
   interface Book {
     title: string;
     author: string;
@@ -57,17 +18,46 @@ let testcase  = [
   }
 
 
-
-
 function ProjectsPage() {
     const [books,setBooks] = useState<Book[]>([]);
+    const [searchButtonClicked, setSearchButtonClicked] = useState(false);
+    useEffect(() => {
+        // Define the URL of your API endpoint
+        const apiUrl = 'http://localhost:8080/sessions/'; // Replace with your actual API URL
     
+        // Fetch data from the API and update the books state
+        fetch(apiUrl, {
+            method: 'GET', // Replace with your desired HTTP method
+            credentials: 'include', // Include credentials (cookies) in the request
+        })
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+            return response.json();
+          })
+          .then((data) => {
+            setBooks(data);
+            console.log(data) // Update the books state with the fetched data
+          })
+          .catch((error) => {
+            console.error('Error fetching data:', error);
+          });
+          setSearchButtonClicked(false);
+      }, [searchButtonClicked]);
+    
+  // Function to handle search button click
+  const handleSearchButtonClick = () => {
+    console.log(books)
+    setSearchButtonClicked(true); // Set searchButtonClicked to true when the button is clicked
+  };
+
 
 
     return (
     <div className="bg-white flex h-4/5 mt-4 w-4/5 m-auto">
         <div className="w-2/5 border border-yellow-500 bg-black overflow-y-scroll scrollbar scrollbar-thumb-black scrollbar-track-yellow-500">
-            <SearchBar/>
+            <SearchBar onSearchButtonClick={handleSearchButtonClick}/>
             <BookList bookitems={books}/>
         </div>
         <div className="w-3/5 bg-black">

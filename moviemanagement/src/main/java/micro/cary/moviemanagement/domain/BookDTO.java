@@ -1,8 +1,8 @@
 package micro.cary.moviemanagement.domain;
 
+import java.io.Serializable;
 
-
-public class BookDTO {
+public class BookDTO implements Serializable{
     private String title;
     private String author;
     private String isbn;

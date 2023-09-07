@@ -25,10 +25,11 @@ interface Book {
           isbn,
           pictureurl,
         };
-  
+        console.log(bookData)
         // Send a POST request using the fetch API
-        const response = await fetch('', {
+        const response = await fetch('http://localhost:8080/sessions/addbook', {
           method: 'POST',
+          credentials: 'include',
           headers: {
             'Content-Type': 'application/json',
           },
@@ -63,16 +64,24 @@ interface Book {
   };
 
 
-
+  interface SearchBarProps {
+    onSearchButtonClick: () => void; // Define a prop for the click handler
+  }
 
 
 // For dynamic searching using our backend API
-const SearchBar: React.FC = () => {
+const SearchBar: React.FC<SearchBarProps>  = ({onSearchButtonClick}) => {
     const [query,setQuery] = useState<Query>({query:''})
     const [searchResults, setSearchResults] = useState<Book[]>([]);
     const handleQueryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setQuery({query:e.target.value})
     }
+    const handleBookItemClick = () => {
+      // Clear the query when a BookItem is clicked
+      onSearchButtonClick();
+      setQuery({query:''});
+
+    };
     useEffect(() => {
         // Define a function to fetch data from your API
         const fetchData = async () => {
@@ -107,15 +116,15 @@ return (
     className={`w-full h-14 bg-black text-white border-2 border-yellow-500  outline-none ${query.query ? 'placeholder-transparent' : 'placeholder-yellow-500'} px-4`}
     placeholder="Search..."
   />
-  {searchResults ? <div className='absolute w-full '>
+  {searchResults ? <div className='absolute w-full ' onClick={() => handleBookItemClick()}>
     {searchResults.map((book, index) => (
           <BookItem
             key={index} 
             isbn={book.isbn}
             title={book.title}
             pictureurl={book.pictureurl}
-            author={book.author
-            }
+            author={book.author}
+
           />
         ))}
   </div> : 
