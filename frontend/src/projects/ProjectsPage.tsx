@@ -9,7 +9,6 @@ import { useState,useEffect } from "react"
 
 //
 
-
   interface Book {
     title: string;
     author: string;
@@ -18,17 +17,19 @@ import { useState,useEffect } from "react"
   }
 
 
+
+
 function ProjectsPage() {
     const [books,setBooks] = useState<Book[]>([]);
     const [searchButtonClicked, setSearchButtonClicked] = useState(false);
     useEffect(() => {
-        // Define the URL of your API endpoint
-        const apiUrl = 'http://localhost:8080/sessions/'; // Replace with your actual API URL
+
+        const apiUrl = 'http://localhost:8080/sessions/'; 
     
         // Fetch data from the API and update the books state
         fetch(apiUrl, {
-            method: 'GET', // Replace with your desired HTTP method
-            credentials: 'include', // Include credentials (cookies) in the request
+            method: 'GET', 
+            credentials: 'include', 
         })
           .then((response) => {
             if (!response.ok) {
@@ -58,7 +59,7 @@ function ProjectsPage() {
     <div className="bg-white flex h-4/5 mt-4 w-4/5 m-auto">
         <div className="w-2/5 border border-yellow-500 bg-black overflow-y-scroll scrollbar scrollbar-thumb-black scrollbar-track-yellow-500">
             <SearchBar onSearchButtonClick={handleSearchButtonClick}/>
-            <BookList bookitems={books}/>
+            <BookList bookitems={books} onBookClick={handleSearchButtonClick}/>
         </div>
         <div className="w-3/5 bg-black">
             <ReccButton/>   

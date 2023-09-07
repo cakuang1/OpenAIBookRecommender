@@ -64,9 +64,9 @@ interface Book {
   };
 
 
-  interface SearchBarProps {
-    onSearchButtonClick: () => void; // Define a prop for the click handler
-  }
+    interface SearchBarProps {
+      onSearchButtonClick: () => void; // Define a prop for the click handler
+    }
 
 
 // For dynamic searching using our backend API

@@ -14,9 +14,24 @@ interface Book {
     pictureurl: string;
   }
 
-  const BookItem: React.FC<Book> = ({ title ,author, isbn, pictureurl }) => {
+interface BookItemProps {
+  book: Book;
+  onClick: () => void;
+}
+
+  const BookItem: React.FC<BookItemProps> = ({ book, onClick }) => {
+    const { title, author, isbn, pictureurl } = book;
+  
+    const handleClick = () => {
+      // Call the onClick handler with the ISBN when the BookItem is clicked
+      onClick();
+    };
+  
     return (
-      <div className="flex items-center border p-2 bg-black text-yellow-500 shadow-md border-yellow-500 ">
+      <div
+        className="flex items-center border p-2 bg-black text-yellow-500 shadow-md border-yellow-500 hover:bg-red-500 transition duration-300 ease-in-out"
+        onClick={handleClick} // Add the click event handler
+      >
         <img src={pictureurl} className="w-16 h-24 mr-2" />
         <div>
           <h2 className="text-lg font-semibold mb-1">{title}</h2>
@@ -24,25 +39,22 @@ interface Book {
           <p className="text-gray-400">Published: {author}</p>
         </div>
       </div>
-
     );
   };
   
   interface ListofBooks {
     bookitems: Book[];
+    onBookClick: () => void; 
   }
   
-  const BookList: React.FC<ListofBooks> = ({ bookitems }) => {
+  const BookList: React.FC<ListofBooks> = ({ bookitems,onBookClick}) => {
     return (
       <div>
         {bookitems.map((book, index) => (
           <BookItem
             key={index} 
-            isbn={book.isbn}
-            title={book.title}
-            pictureurl={book.pictureurl}
-            author={book.author
-            }
+            book={book}
+            onClick={onBookClick}
           />
         ))}
       </div>
