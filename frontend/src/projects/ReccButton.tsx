@@ -1,6 +1,9 @@
 import React from "react";
 import { useState } from "react";
 
+
+
+
 const ReccButton:React.FC = () => {
     
 
@@ -11,7 +14,10 @@ const ReccButton:React.FC = () => {
         <h1 className="font-bold text-4xl">How To</h1>
         <p className="mt-2">Add your favorite books using the searchbar and click the button below to allow AI to generate reccomendations</p>
     </div>
-    <div className="bg-white w-full">test</div>
+    <div className="bg-white w-2/3">
+        test
+
+    </div>
     </div>)
 
 

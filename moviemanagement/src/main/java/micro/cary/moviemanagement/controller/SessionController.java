@@ -41,12 +41,13 @@ public class SessionController {
             books = new ArrayList<>();
             session.setAttribute("books", books);
         }
-        
-        books.add(book);
-        session.setAttribute("books", books);
-        
-        // Print the session ID
-        System.out.println("Session ID: " + sessionId);
+        boolean bookexists = books.stream().anyMatch(existingBook -> existingBook.getIsbn().equals(book.getIsbn()));
+        if (!bookexists) {
+            books.add(book);
+            session.setAttribute("books", books);
+         }
+
+
         
         return books;
     }
