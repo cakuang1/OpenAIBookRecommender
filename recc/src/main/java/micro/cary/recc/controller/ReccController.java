@@ -25,11 +25,11 @@ public class ReccController {
     @Value("${openai.api.url}")
     private String apiUrl;
     
-    @GetMapping("/chat")
+    @GetMapping("/recommendation")
     public String chat(@RequestParam List<String> promptMovies) {
         // create a request
-
-        String prompt = "Given I have read the books " + +  ",give me other book reccomendations in json with the following keys [title,author,reason]. Please ensure that only json will be returned"
+        System.out.println(promptMovies);
+        String prompt = "Given I have read the books " + promptMovies +  ",give me other book reccomendations in json with the following keys [title,author,reason]. Please ensure that only json will be returned";
         ChatRequest request = new ChatRequest(model, prompt);
         
         // call the API
@@ -38,7 +38,7 @@ public class ReccController {
         if (response == null || response.getChoices() == null || response.getChoices().isEmpty()) {
             return "No response";
         }
-        
+
         return response.getChoices().get(0).getMessage().getContent();
     }
 }

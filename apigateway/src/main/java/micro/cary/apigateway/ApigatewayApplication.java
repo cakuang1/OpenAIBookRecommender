@@ -1,15 +1,13 @@
-package micro.cary.recc;
+package micro.cary.apigateway;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-
-
 @SpringBootApplication
-public class ReccApplication {
+public class ApigatewayApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ReccApplication.class, args);
+		SpringApplication.run(ApigatewayApplication.class, args);
 	}
 
 }

@@ -1,0 +1,16 @@
+server:
+  port: 8085
+spring:
+  application:
+    name: API-GATEWAY-SERVICE
+  cloud:
+    gateway:
+      routes:
+        - id: sessionservice
+          uri: http://localhost:8080
+          predicates:
+            - Path=/session/**
+        - id: recommendationservice
+          uri: http://localhost:8081
+          predicates:
+            - Path=/recomendation/**
