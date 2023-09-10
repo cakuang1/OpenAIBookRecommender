@@ -1,7 +1,7 @@
 import React from "react"
 import BookList from "./Booklist"
 import SearchBar from "./SearchBar"
-import ReccButton from "./ReccButton"
+import ReccButton from "./Recommendedsection"
 import { useState,useEffect } from "react"
 // MAIN PAGE
 

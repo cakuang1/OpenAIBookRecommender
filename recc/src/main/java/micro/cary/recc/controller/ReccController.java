@@ -27,7 +27,7 @@ public class ReccController {
     
     @GetMapping("/recommendation")
     public String chat(@RequestParam List<String> promptMovies) {
-        // create a request
+
         System.out.println(promptMovies);
         String prompt = "Given I have read the books " + promptMovies +  ",give me other book reccomendations in json with the following keys [title,author,reason]. Please ensure that only json will be returned";
         ChatRequest request = new ChatRequest(model, prompt);
