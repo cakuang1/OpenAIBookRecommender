@@ -33,7 +33,6 @@ public class SessionController {
     public List<BookDTO> addBook(@RequestBody BookDTO book, HttpServletRequest request) {
         HttpSession session = request.getSession();
         String sessionId = session.getId(); // Get the session ID
-        
         @SuppressWarnings("unchecked")
         List<BookDTO> books = (List<BookDTO>) session.getAttribute("books");
         

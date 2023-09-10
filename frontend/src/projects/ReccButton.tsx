@@ -7,7 +7,7 @@ import { useState } from "react";
 const ReccButton:React.FC = () => {
     
 
-
+    
     return (
     <div className="flex">
     <div className="text-yellow-500 text-center mx-2 w-1/3">
