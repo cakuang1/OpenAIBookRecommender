@@ -86,7 +86,7 @@ const SearchBar: React.FC<SearchBarProps>  = ({onSearchButtonClick}) => {
         // Define a function to fetch data from your API
         const fetchData = async () => {
           try {
-            const response = await fetch(`http://localhost:8085/api/books/fetch`);
+            const response = await fetch(`http://localhost:8085/sessions/books/fetch`);
             if (!response.ok) {
               throw new Error('Network response was not ok');
             }

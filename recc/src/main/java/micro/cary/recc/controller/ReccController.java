@@ -7,20 +7,23 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import micro.cary.recc.domain.ChatRequest;
 import micro.cary.recc.domain.ChatResponse;
-import micro.cary.recc.services.MovieListService;
+
 
 
 @RestController
+@RequestMapping("/recommendation")
 public class ReccController {
     @Qualifier("openaiRestTemplate")
     @Autowired
     private RestTemplate restTemplate;
     @Autowired
-    private MovieListService movieListService;
+
 
     @Value("${openai.model}")
     private String model;
@@ -28,14 +31,10 @@ public class ReccController {
     @Value("${openai.api.url}")
     private String apiUrl;
     
-    @GetMapping("/recommendation")
-    public String chat(@CookieValue(name = "JSESSIONID", required = true) String cookiehere) {
-        
-        List<String> listofmovies  = movieListService.getMovies(cookiehere);
-        System.out.println(listofmovies);
+    @GetMapping("/grabmovies")
+    public String grabmovies(@RequestParam List<String> listofmovies) {
         String prompt = "Given I have read the books " + listofmovies +  ",give me other book reccomendations in json with the following keys [title,author,reason]. Please ensure that only json will be returned";
-        ChatRequest request = new ChatRequest(model, prompt);
-        
+        ChatRequest request = new ChatRequest(model, prompt);        
         // call the API
         ChatResponse response = restTemplate.postForObject(apiUrl, request, ChatResponse.class);
 

@@ -27,12 +27,21 @@ public class SessionController {
 		}
 		return messages;
 	}
-
-
+    @GetMapping("/getmovierecs")
+    public List<String> getmovies(HttpSession session){
+        List<String> movieTitles = new ArrayList<>();
+        @SuppressWarnings("unchecked")
+        List<BookDTO> books = (List<BookDTO>) session.getAttribute("books");
+        if (books != null) {
+            for (BookDTO book : books) {
+                movieTitles.add(book.getTitle());
+            }
+        }
+        return movieTitles;
+    }
     @PostMapping("/addbook")
     public List<BookDTO> addBook(@RequestBody BookDTO book, HttpServletRequest request) {
         HttpSession session = request.getSession();
-        String sessionId = session.getId(); // Get the session ID
         @SuppressWarnings("unchecked")
         List<BookDTO> books = (List<BookDTO>) session.getAttribute("books");
         
@@ -45,9 +54,6 @@ public class SessionController {
             books.add(book);
             session.setAttribute("books", books);
          }
-
-
-        
         return books;
     }
     
