@@ -13,15 +13,15 @@ interface Reccomendation {
 }
 
 interface Reccomendationlist {
-    Reclist : Reccomendation[]
+    reclist : Reccomendation[]
 }
 
 
 
-const Reccomendations:React.FC <Reccomendationlist>= ({Reclist}) => {
+const Reccomendations:React.FC <Reccomendationlist>= ({reclist}) => {
     return (
         <div>
-            {Reclist.map((item,index) => (
+            {reclist.map((item,index) => (
                 <div className="text-yellow-500">
                 <div className="flex items-center border p-2 bg-black  shadow-md border-yellow-500 hover:bg-red-500 transition duration-300 ease-in-out">
                     <img src={item.pictureurl} className="w-16 h-24 mr-2" />
@@ -40,18 +40,15 @@ const Reccomendations:React.FC <Reccomendationlist>= ({Reclist}) => {
     )
 }
 
-
 const Recommendedsection:React.FC = () => {
-    const [data, setData] <Reccomendationlist>= useState([]);
+  const [data, setData] = useState<Reccomendation[]>([]);
     const [isLoading, setIsLoading] = useState(false);
     const fetchData = async () => {
       try {
         setIsLoading(true);
-  
         // Make an API call using fetch or axios here
         const response = await fetch('your-api-endpoint');
         const result = await response.json();
-  
         setData(result);
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -59,7 +56,6 @@ const Recommendedsection:React.FC = () => {
         setIsLoading(false);
       }
     };
-
     return (
     <div className="flex">
     <div className="text-yellow-500 text-center mx-2 w-1/3">
@@ -72,7 +68,7 @@ const Recommendedsection:React.FC = () => {
         </div>
     </div>
     <div className="bg-white w-2/3">
-        <Reccomendations />
+        <Reccomendations reclist={data}/>
     </div>
     </div>)
 

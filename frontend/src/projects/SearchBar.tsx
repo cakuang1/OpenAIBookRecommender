@@ -27,7 +27,7 @@ interface Book {
         };
         console.log(bookData)
         // Send a POST request using the fetch API
-        const response = await fetch('http://localhost:8080/sessions/addbook', {
+        const response = await fetch('http://localhost:8085/sessions/addbook', {
           method: 'POST',
           credentials: 'include',
           headers: {
@@ -86,7 +86,7 @@ const SearchBar: React.FC<SearchBarProps>  = ({onSearchButtonClick}) => {
         // Define a function to fetch data from your API
         const fetchData = async () => {
           try {
-            const response = await fetch(`http://localhost:8080/api/books/fetch`);
+            const response = await fetch(`http://localhost:8085/api/books/fetch`);
             if (!response.ok) {
               throw new Error('Network response was not ok');
             }

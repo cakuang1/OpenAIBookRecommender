@@ -7,10 +7,10 @@ spring:
     gateway:
       routes:
         - id: sessionservice
-          uri: http://localhost:8080
+          uri: http://moviemanagement:8080  
           predicates:
-            - Path=/session/**
+            - Path=/sessions/**
         - id: recommendationservice
-          uri: http://localhost:8081
+          uri: http://recc:8081  
           predicates:
             - Path=/recomendation/**

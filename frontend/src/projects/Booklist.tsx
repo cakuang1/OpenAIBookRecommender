@@ -24,7 +24,7 @@ interface BookItemProps {
   
     const handleClick = async() => {
       // Call the onClick handler with the ISBN when the BookItem is clicked
-      const response = await fetch('http://localhost:8080/sessions/deletebook?isbn=' + isbn, {
+      const response = await fetch('http://localhost:8085/sessions/deletebook?isbn=' + isbn, {
         method: 'POST',
         credentials: 'include'})
       // Handle the response as needed (e.g., show a success message)

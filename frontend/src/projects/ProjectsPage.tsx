@@ -1,8 +1,9 @@
 import React from "react"
 import BookList from "./Booklist"
 import SearchBar from "./SearchBar"
-import ReccButton from "./Recommendedsection"
 import { useState,useEffect } from "react"
+import Recommendedsection from "./Recommendedsection"
+
 // MAIN PAGE
 
 //https://www.googleapis.com/books/v1/volumes?q=${term}&maxResults=11&key=AIzaSyCOeK3OAiQpxV7CaTPE-FAhDdI0fAFrzSA
@@ -24,7 +25,7 @@ function ProjectsPage() {
     const [searchButtonClicked, setSearchButtonClicked] = useState(false);
     useEffect(() => {
 
-        const apiUrl = 'http://localhost:8080/sessions/'; 
+        const apiUrl = 'http://localhost:8085/sessions/'; 
     
         // Fetch data from the API and update the books state
         fetch(apiUrl, {
@@ -62,7 +63,7 @@ function ProjectsPage() {
             <BookList bookitems={books} onBookClick={handleSearchButtonClick}/>
         </div>
         <div className="w-3/5 bg-black">
-            <ReccButton/>   
+            <Recommendedsection/>   
         </div>
         <div></div>
     </div>)
