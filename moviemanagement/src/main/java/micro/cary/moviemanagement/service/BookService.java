@@ -30,13 +30,14 @@ public class BookService {
 
     }
 
-    public RecommendationDTO searchBook(String title, String author) {
+    public JsonNode searchBook(String title, String author) {
+        System.out.println(title);
+        System.out.println(author);
         return webClient
                 .get()
                 .uri("/volumes?q=intitle:{title}+inauthor:{author}", title, author)
                 .retrieve()
                 .bodyToMono(JsonNode.class)
-                .map(this::proccesItemRecc)
                 .block();
     }
 
@@ -65,8 +66,7 @@ public class BookService {
 
 
 
-    private RecommendationDTO proccesItemRecc(JsonNode response) {
-        
+    public static RecommendationDTO proccesItemRecc(JsonNode response) { 
         JsonNode item = response.get("items").get(0);
         String title = item.path("volumeInfo").path("title").asText();
         String author = item.path("volumeInfo").path("authors").get(0).asText();

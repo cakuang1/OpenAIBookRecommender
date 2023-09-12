@@ -5,10 +5,9 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
+
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,10 +16,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import com.fasterxml.jackson.databind.JsonNode;
+
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import micro.cary.moviemanagement.domain.APIresponse;
 import micro.cary.moviemanagement.domain.BookDTO;
 import micro.cary.moviemanagement.domain.RecommendationDTO;
+import micro.cary.moviemanagement.service.BookService;
 
 
 
@@ -28,13 +31,14 @@ import micro.cary.moviemanagement.domain.RecommendationDTO;
 @RequestMapping("/sessions")
 public class SessionController {
     private final RestTemplate restTemplate;
-    private final String apiUrl; // Replace with your external API URL
+    private final BookService bookService;
 
-    @Autowired
-    public SessionController(RestTemplate restTemplate) {
+
+    public SessionController(RestTemplate restTemplate,BookService bookService) {
         this.restTemplate = restTemplate;
-        this.apiUrl = "http://recommmendation.com/api"; // Replace with your actual API URL
+        this.bookService = bookService;
     }
+
 
     @GetMapping("/")
 	public List<BookDTO> home(HttpSession session) {
@@ -55,25 +59,30 @@ public class SessionController {
                 movieTitles.add(book.getTitle());
             }
         }
-
-        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-        for (String title : movieTitles) {
-            params.add("title", title);
-        }
-
-        // Make an HTTP POST request to the external API with request parameters
-        ResponseEntity<RecommendationDTO[]> responseEntity = restTemplate.postForEntity(apiUrl, params, RecommendationDTO[].class);
-
+        String listOfMovies = String.join(",", movieTitles);
+        System.out.println(listOfMovies);
+        String apiUrlWithParams = "http://recc:8081/recommendation/grabmovies?listofmovies=" + listOfMovies;
+        ResponseEntity<APIresponse[]> responseEntity = restTemplate.getForEntity(apiUrlWithParams, APIresponse[].class);
+        List<APIresponse> apiResponses = new ArrayList<>();
+        System.out.println(responseEntity.getStatusCode());
         if (responseEntity.getStatusCode().is2xxSuccessful()) {
-            RecommendationDTO[] recommendations = responseEntity.getBody();
-            if (recommendations != null && recommendations.length > 0) {
-                return Arrays.asList(recommendations);
+            APIresponse[] apiResponsesArray = responseEntity.getBody();
+            if (apiResponsesArray != null) {
+                apiResponses.addAll(Arrays.asList(apiResponsesArray));
             }
         }
-
-
-        //Call external api with movieTitles as input
-        return movieTitles;
+        List<RecommendationDTO> returnlist = new ArrayList<>();
+        for (APIresponse apIresponse : apiResponses) {
+            System.out.println();
+            JsonNode curr = bookService.searchBook(apIresponse.getTitle(), apIresponse.getAuthor());
+            Integer totalitems = curr.get("totalitems").asInt();
+            if (totalitems > 0) {
+                RecommendationDTO recc = BookService.proccesItemRecc(curr);
+                recc.setReason(apIresponse.getReason());
+                returnlist.add(recc);
+            }
+        }
+        return returnlist;
     }
     @PostMapping("/addbook")
     public List<BookDTO> addBook(@RequestBody BookDTO book, HttpServletRequest request) {
@@ -94,8 +103,6 @@ public class SessionController {
     }
     
     
-
-
     @PostMapping("/deletebook")
     public List<BookDTO> deleteBook(@RequestParam("isbn") String isbn, HttpServletRequest request) {
         @SuppressWarnings("unchecked")

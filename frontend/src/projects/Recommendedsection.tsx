@@ -62,7 +62,7 @@ const Recommendedsection:React.FC = () => {
       try {
         setIsLoading(true);
         // Make an API call using fetch or axios here
-        const response = await fetch('http://localhost:8085/recommendation/grabmovies',{credentials: 'include'});
+        const response = await fetch('http://localhost:8085/sessions/getmovierecs',{credentials: 'include'});
         const result = await response.json();
         setData(result);
       } catch (error) {

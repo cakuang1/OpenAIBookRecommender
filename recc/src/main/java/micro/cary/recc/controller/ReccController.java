@@ -33,7 +33,7 @@ public class ReccController {
     
     @GetMapping("/grabmovies")
     public String grabmovies(@RequestParam List<String> listofmovies) {
-        String prompt = "Given I have read the books " + listofmovies +  ",give me other book reccomendations in json with the following keys [title,author,reason]. Please ensure that only json will be returned";
+        String prompt = "Given I have read the books " + listofmovies +  ",give me other book reccomendations in with a list of JSON with the following keys [title,author,reason]. Please ensure that only the list is returned, meaning response should be a list, not JSON.";
         ChatRequest request = new ChatRequest(model, prompt);        
         // call the API
         ChatResponse response = restTemplate.postForObject(apiUrl, request, ChatResponse.class);
