@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -11,11 +12,16 @@ import com.fasterxml.jackson.databind.JsonNode;
 
 
 import micro.cary.moviemanagement.domain.BookDTO;
+import micro.cary.moviemanagement.domain.RecommendationDTO;
+
 
 @Service
 public class BookService {
 
     private final WebClient webClient;
+
+    @Value("${api.key}")
+    private String apiKey;
 
     public BookService() {
         this.webClient = WebClient.builder()
@@ -23,9 +29,21 @@ public class BookService {
                 .build();
 
     }
+
+    public RecommendationDTO searchBook(String title, String author) {
+        return webClient
+                .get()
+                .uri("/volumes?q=intitle:{title}+inauthor:{author}", title, author)
+                .retrieve()
+                .bodyToMono(JsonNode.class)
+                .map(this::proccesItemRecc)
+                .block();
+    }
+
+
     public List<BookDTO> fetchBooks() {
         return webClient.get()
-                .uri("/volumes?q=test&maxResults=4&key=AIzaSyCOeK3OAiQpxV7CaTPE-FAhDdI0fAFrzSA")
+                .uri("/volumes?q=test&maxResults=4&key=" + apiKey)
                 .retrieve()
                 .bodyToMono(JsonNode.class)
                 .map(this::processBooksResponse)
@@ -43,6 +61,28 @@ public class BookService {
             }
         }
         return books;
+    }
+
+
+
+    private RecommendationDTO proccesItemRecc(JsonNode response) {
+        
+        JsonNode item = response.get("items").get(0);
+        String title = item.path("volumeInfo").path("title").asText();
+        String author = item.path("volumeInfo").path("authors").get(0).asText();
+        String pictureUrl = "";
+        String description = item.path("volumeInfo").path("description").asText();
+        JsonNode imageLinks = item.path("volumeInfo").path("imageLinks");
+        if (imageLinks.has("thumbnail")) {
+            pictureUrl = imageLinks.path("thumbnail").asText();
+        }
+        return new RecommendationDTO(title, author, author, pictureUrl, "" , description);
+
+
+
+        
+
+
     }
 
     private BookDTO processItem(JsonNode item) {
