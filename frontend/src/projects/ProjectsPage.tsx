@@ -62,10 +62,9 @@ function ProjectsPage() {
             <SearchBar onSearchButtonClick={handleSearchButtonClick}/>
             <BookList bookitems={books} onBookClick={handleSearchButtonClick}/>
         </div>
-        <div className="w-3/5 bg-black">
+        <div className="w-3/5 bg-black h-full">
             <Recommendedsection/>   
         </div>
-        <div></div>
     </div>)
 
 

@@ -73,9 +73,9 @@ public class SessionController {
         }
         List<RecommendationDTO> returnlist = new ArrayList<>();
         for (APIresponse apIresponse : apiResponses) {
-            System.out.println();
             JsonNode curr = bookService.searchBook(apIresponse.getTitle(), apIresponse.getAuthor());
-            Integer totalitems = curr.get("totalitems").asInt();
+            System.out.println(curr);
+            Integer totalitems = curr.get("totalItems").asInt();
             if (totalitems > 0) {
                 RecommendationDTO recc = BookService.proccesItemRecc(curr);
                 recc.setReason(apIresponse.getReason());

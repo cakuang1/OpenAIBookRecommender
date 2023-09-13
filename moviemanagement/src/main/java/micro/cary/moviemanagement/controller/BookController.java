@@ -4,6 +4,7 @@ package micro.cary.moviemanagement.controller;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 
@@ -26,8 +27,8 @@ public class BookController {
         this.bookService = bookService;
     }
     @GetMapping("/fetch")
-    public ResponseEntity<List<BookDTO>> fetchBooks() {
-        List<BookDTO> books = bookService.fetchBooks();
+    public ResponseEntity<List<BookDTO>> fetchBooks(@RequestParam String query) {
+        List<BookDTO> books = bookService.fetchBooks(query);
         return ResponseEntity.ok(books);
     }
     

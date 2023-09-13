@@ -5,7 +5,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -31,17 +35,21 @@ public class ReccController {
     @Value("${openai.api.url}")
     private String apiUrl;
     
-    @GetMapping("/grabmovies")
-    public String grabmovies(@RequestParam List<String> listofmovies) {
-        String prompt = "Given I have read the books " + listofmovies +  ",give me other book reccomendations in with a list of JSON with the following keys [title,author,reason]. Please ensure that only the list is returned, meaning response should be a list, not JSON.";
+    @GetMapping(value = "/grabmovies", produces = "application/json")
+    public ResponseEntity<String> grabmovies(@RequestParam List<String> listofmovies) {
+        String prompt = "Given I have read the books " + listofmovies +  ",give me other book reccomendations in with a list of JSON with the following keys [title,author,reason]. Ensure that the the response is a list of json and only a list of json.Do not return any non-json text or numbering";
         ChatRequest request = new ChatRequest(model, prompt);        
         // call the API
         ChatResponse response = restTemplate.postForObject(apiUrl, request, ChatResponse.class);
 
-        if (response == null || response.getChoices() == null || response.getChoices().isEmpty()) {
-            return "No response";
-        }
 
-        return response.getChoices().get(0).getMessage().getContent();
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        // Create the HTTP entity with headers and response body
+        System.out.println(response.getChoices().get(0).getMessage().getContent());
+        ResponseEntity<String> responseEntity = new ResponseEntity<>(response.getChoices().get(0).getMessage().getContent(), headers, HttpStatus.OK);
+        return responseEntity;
     }
+
 }

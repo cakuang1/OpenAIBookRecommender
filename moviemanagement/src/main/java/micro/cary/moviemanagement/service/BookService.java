@@ -42,9 +42,9 @@ public class BookService {
     }
 
 
-    public List<BookDTO> fetchBooks() {
+    public List<BookDTO> fetchBooks(String q) {
         return webClient.get()
-                .uri("/volumes?q=test&maxResults=4&key=" + apiKey)
+                .uri("/volumes?q=" + q + "&maxResults=4&key=" + apiKey)
                 .retrieve()
                 .bodyToMono(JsonNode.class)
                 .map(this::processBooksResponse)
@@ -66,7 +66,8 @@ public class BookService {
 
 
 
-    public static RecommendationDTO proccesItemRecc(JsonNode response) { 
+    public static RecommendationDTO proccesItemRecc(JsonNode response) {
+        System.out.println(response); 
         JsonNode item = response.get("items").get(0);
         String title = item.path("volumeInfo").path("title").asText();
         String author = item.path("volumeInfo").path("authors").get(0).asText();
