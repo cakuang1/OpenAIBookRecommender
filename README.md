@@ -36,6 +36,7 @@ openai.model=gpt-3.5-turbo
 openai.api.url=https://api.openai.com/v1/chat/completions
 openai.api.key=YOURAPIKEYHERE
 server.port=8081
+```
 
 
 3;.Now  to the project directory
