@@ -31,7 +31,7 @@ This project can be easily setup using a docker-compose command. However, since 
 ```
 
 2.Replace the openai.api.key value in your application.properties file
-'''
+```python
 openai.model=gpt-3.5-turbo
 openai.api.url=https://api.openai.com/v1/chat/completions
 openai.api.key=YOURAPIKEYHERE
