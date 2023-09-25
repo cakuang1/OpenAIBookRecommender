@@ -23,19 +23,28 @@ These are all run in docker containers which will be explained below.
 
 ## Run Locally
 
-This project can be easily setup using a docker-compose command. However, since we are using the OpenAI API, you will need to setup 
+This project can be easily setup using a docker-compose command. However, since we are using the OpenAI API, you will first need to setup the application.properties file in the recc/src/main/resources directory.
 
+1.First clone application locally
 ```bash
   git clone https://github.com/cakuang1/movierec.git
 ```
 
-Go to the project directory
+2.Replace the openai.api.key value in your application.properties file
+'''
+openai.model=gpt-3.5-turbo
+openai.api.url=https://api.openai.com/v1/chat/completions
+openai.api.key=YOURAPIKEYHERE
+server.port=8081
+
+
+3;.Now  to the project directory
 
 ```bash
   cd movierec
 ```
 
-Run the docker compose commnad
+4.Run the docker compose commnad
 
 ```bash
   docker compose up
@@ -51,11 +60,9 @@ Run the docker compose commnad
 
 These following services will be now running.
 
-Now you are able to view to web application by going to 
+5.Now you are able to view to web application by going to http://localhost:3000/
 
-```bash
-  npm run start
-```
+
 
 
 
@@ -65,4 +72,25 @@ Now you are able to view to web application by going to
 
 
 
-## Tools used 
+## Tools Used
+
+### 1. Programming Languages
+
+- Frontend : JavaScript
+- Backend: Java
+
+### 2. Frameworks and Libraries
+
+-  React
+-  Spring Boot
+
+### 3. Data management
+
+- Redis
+
+### 4. Other Tools
+
+- Google Books API (Search Tool and Book Lookup)
+- OpenAI API
+
+
