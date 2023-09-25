@@ -1,5 +1,5 @@
 import React from "react";
-import ProjectsPage from "./projects/ProjectsPage";
+import ProjectsPage from "./components/ProjectsPage";
 
 
 

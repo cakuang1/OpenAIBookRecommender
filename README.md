@@ -1,12 +1,11 @@
 
 # OpenAIRecommender
 
-A book recommender web application. However,instead of your typical machine learning algorithm, we used OpenAI's API.
+A book recommender web application. However,instead of your typical machine learning algorithm, we used OpenAI's API. 
 
 
 
 ## Demo
-
 
 
 

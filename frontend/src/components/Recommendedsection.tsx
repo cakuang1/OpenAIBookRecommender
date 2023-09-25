@@ -1,5 +1,6 @@
 import React from "react";
-import { useState } from "react";
+import { useState,CSSProperties } from "react";
+import ClipLoader from 'react-spinners/ClipLoader';
 
 
 interface Reccomendation {
@@ -19,6 +20,7 @@ interface Reccomendationlist {
 
 
 const Reccomendations:React.FC <Reccomendationlist>= ({reclist}) => {
+  console.log(reclist)
     return (
         <div>
             {reclist.map((item,index) => (
@@ -42,6 +44,7 @@ const Recommendedsection:React.FC = () => {
   const [data, setData] = useState<Reccomendation[]>([
 ]);
     const [isLoading, setIsLoading] = useState(false);
+    let [color, setColor] = useState("#ffffff");
     const fetchData = async () => {
       try {
         setIsLoading(true);
@@ -71,9 +74,16 @@ const Recommendedsection:React.FC = () => {
       </button>
         </div>
     </div>
-    <div className="w-2/3 border border-yellow-500 bg-black overflow-y-scroll scrollbar scrollbar-thumb-black scrollbar-track-yellow-500">  
-      <Reccomendations reclist={data}/>
-    </div>
+    <div className="w-2/3 border border-yellow-500 bg-black flex flex-col items-center justify-center overflow-y-scroll scrollbar scrollbar-thumb-black scrollbar-track-yellow-500">
+  <ClipLoader
+    color="#F59E0B"
+    loading={isLoading}
+    size={125}
+    aria-label="Loading Spinner"
+    data-testid="loader"
+  />
+  <Reccomendations reclist={data}/>
+</div>
     </div>)
 
 

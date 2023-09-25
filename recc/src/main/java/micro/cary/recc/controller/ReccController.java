@@ -37,7 +37,7 @@ public class ReccController {
     
     @GetMapping(value = "/grabmovies", produces = "application/json")
     public ResponseEntity<String> grabmovies(@RequestParam List<String> listofmovies) {
-        String prompt = "Given I have read the books " + listofmovies +  ",give me other book reccomendations in with a list of JSON with the following keys [title,author,reason]. Ensure that the the response is a list of json and only a list of json.Do not return any non-json text or numbering";
+        String prompt = "Given I have read the books " + listofmovies +  ",give me other book reccomendations in with a list of JSON.Do not include any explanations, only provide a  RFC8259 compliant JSON response following this format without deviation. [{title: the title of the book,author:the author of the book,reason : why do you recommend this book and how it relates to the books I have read}]";
         ChatRequest request = new ChatRequest(model, prompt);        
         // call the API
         ChatResponse response = restTemplate.postForObject(apiUrl, request, ChatResponse.class);
