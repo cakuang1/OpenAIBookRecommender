@@ -74,15 +74,19 @@ const Recommendedsection:React.FC = () => {
       </button>
         </div>
     </div>
-    <div className="w-2/3 border border-yellow-500 bg-black flex flex-col items-center justify-center overflow-y-scroll scrollbar scrollbar-thumb-black scrollbar-track-yellow-500">
-  <ClipLoader
+    
+    <div className="w-2/3 border border-yellow-500 bg-black  justify-center overflow-y-scroll scrollbar scrollbar-thumb-black scrollbar-track-yellow-500">
+    {isLoading?     <div className="flex justify-center">  <ClipLoader
+    className=""
     color="#F59E0B"
-    loading={isLoading}
     size={125}
     aria-label="Loading Spinner"
     data-testid="loader"
-  />
-  <Reccomendations reclist={data}/>
+  /></div> :
+  <Reccomendations reclist={data}/>}
+
+
+
 </div>
     </div>)
 
