@@ -92,7 +92,7 @@ These following services will be now running.
 ### 4. Other Tools
 
 - Google Books API (Search Tool and Book Lookup)
-- OpenAI API
-- 
+- OpenAI API (AI recommendation source)
+- Tailwind (CSS Framework)
 
 
